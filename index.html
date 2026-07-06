@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Life in Numbers â³ | Discover how much you've lived</title>
+  <meta name="description" content="Enter your name and date of birth and discover in real time how many seconds you've lived, how many times your heart has beaten, how many breaths you've taken and many more incredible facts about your life!" />
+
+  <!-- Social / sharing (Facebook, TikTok, WhatsApp) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vitainnumeri.github.io/" />
+  <meta property="og:title" content="Your Life in Numbers â³" />
+  <meta property="og:description" content="Find out how many times your heart has beaten since you were born! ðŸ˜± Try it and share with friends." />
+  <meta property="og:image" content="https://vitainnumeri.github.io/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Your Life in Numbers â³" />
+  <meta name="twitter:description" content="Find out how many times your heart has beaten since you were born! ðŸ˜±" />
+  <meta name="twitter:image" content="https://vitainnumeri.github.io/og-image.png" />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2466362384448460" crossorigin="anonymous"></script>
+
+  <script src="config.js"></script>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <h1><img src="logo.svg" alt="Your Life in Numbers" class="site-logo" width="430" height="80" /></h1>
+      <p class="subtitle">Discover incredible things your body has done since you were born.<br>It's free and takes 10 seconds.</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===== FORM ===== -->
+    <section id="form-section" class="card form-card">
+      <form id="life-form" autocomplete="off">
+        <div class="form-row">
+          <div class="field">
+            <label for="nome">First name</label>
+            <input type="text" id="nome" name="nome" placeholder="John" required />
+          </div>
+          <div class="field">
+            <label for="cognome">Last name</label>
+            <input type="text" id="cognome" name="cognome" placeholder="Smith" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="nascita">Date of birth</label>
+            <input type="date" id="nascita" name="nascita" required />
+          </div>
+          <div class="field">
+            <label for="ora">Time of birth <span class="opt">(optional)</span></label>
+            <input type="time" id="ora" name="ora" value="12:00" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="altezza">Height in cm <span class="opt">(optional)</span></label>
+            <input type="number" id="altezza" name="altezza" placeholder="175" min="30" max="260" />
+          </div>
+          <div class="field">
+            <label for="peso">Weight in kg <span class="opt">(optional)</span></label>
+            <input type="number" id="peso" name="peso" placeholder="70" min="2" max="400" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">âœ¨ Reveal my life</button>
+        <p class="privacy-note">ðŸ”’ Your data stays on your device. Nothing is saved or sent anywhere.</p>
+      </form>
+    </section>
+
+    <!-- ===== RESULTS ===== -->
+    <section id="results" class="hidden">
+      <div class="results-header">
+        <h2 id="result-title">The life ofâ€¦</h2>
+        <p id="result-age" class="result-age"></p>
+      </div>
+
+      <div class="hero-stat card">
+        <span class="hero-label">You have lived</span>
+        <span class="hero-number" data-stat="seconds">0</span>
+        <span class="hero-unit">seconds</span>
+      </div>
+
+      <!-- High-value ad: right under the result (filled after AdSense approval) -->
+      <div class="ad-slot" data-ad-position="afterResult"></div>
+
+      <div id="stats-grid" class="stats-grid"></div>
+
+      <!-- Ad between the statistics -->
+      <div class="ad-slot" data-ad-position="midStats"></div>
+
+      <div id="planets-card" class="card planets-card"></div>
+
+      <div class="share-box card">
+        <h3>ðŸ“² Share your result!</h3>
+        <p>Let your friends find out how long they've lived ðŸ‘‡</p>
+        <div class="share-buttons">
+          <button class="share-btn fb"   data-share="facebook">Facebook</button>
+          <button class="share-btn wa"   data-share="whatsapp">WhatsApp</button>
+          <button class="share-btn tg"   data-share="telegram">Telegram</button>
+          <button class="share-btn x"    data-share="x">X</button>
+          <button class="share-btn copy" data-share="copy">ðŸ“‹ Copy link</button>
+        </div>
+        <button id="restart" class="btn-secondary">â†º Run another calculation</button>
+      </div>
+    </section>
+
+    <!-- ===== INFO / CONTENT (always visible: good for visitors & SEO) ===== -->
+    <section id="info" class="info">
+      <div class="info-block card">
+        <h2>How it works</h2>
+        <p>Your Life in Numbers turns your date of birth into a live portrait of everything
+        your body has quietly been doing since the day you were born. The moment you enter
+        your details, your browser calculates â€” in real time, right in front of you â€” how
+        many seconds you have been alive, how many times your heart has beaten, how many
+        breaths you have taken and much more.</p>
+        <p>Every number is an estimate based on well-established scientific averages. A
+        resting heart, for instance, beats faster in babies (around 130 beats per minute)
+        and settles to roughly 72 beats per minute in adults, while we breathe about 16
+        times a minute and blink around 15 times a minute while we are awake. We apply
+        these averages across each stage of your life to reach your personal totals.</p>
+      </div>
+
+      <!-- Bottom ad (filled after AdSense approval) -->
+      <div class="ad-slot" data-ad-position="bottom"></div>
+
+      <div class="info-block card">
+        <h2>Did you know? ðŸ¤¯</h2>
+        <ul class="facts">
+          <li>â¤ï¸ By the age of 30, your heart has already beaten more than <strong>1 billion</strong> times â€” without ever taking a break.</li>
+          <li>ðŸ« You take around <strong>20,000 breaths every single day</strong>, almost all of them without ever thinking about it.</li>
+          <li>ðŸ‘ï¸ You blink so often that your eyes are closed for roughly <strong>10% of your waking life</strong>.</li>
+          <li>ðŸ©¸ In a single day, your heart pumps about <strong>7,000 liters of blood</strong> around your body.</li>
+          <li>ðŸŒ Right now you are racing around the Sun at about <strong>107,000 km/h</strong> â€” and you cannot even feel it.</li>
+          <li>ðŸ˜´ By the age of 75, you will have spent roughly <strong>25 years asleep</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="info-block card">
+        <h2>Questions &amp; Answers</h2>
+        <p><strong>Is my data saved anywhere?</strong><br>No. Everything is calculated locally
+        in your browser. We never store or send your name or date of birth.</p>
+        <p><strong>How accurate are the numbers?</strong><br>They are realistic estimates based
+        on scientific averages, made for fun and curiosity â€” not a medical measurement of your
+        own body.</p>
+        <p><strong>Is it really free?</strong><br>Yes, completely free. The site is supported by
+        the ads shown around the page.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Values are estimates based on scientific averages and are for entertainment purposes. ðŸ’›</p>
+      <p><a href="privacy.html">Privacy</a> Â· <a href="terms.html">Terms</a> Â· Made with â³ for fun</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

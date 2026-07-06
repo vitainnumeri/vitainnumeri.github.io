@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 80" role="img" aria-label="Your Life in Numbers">
+  <defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5e9a"/>
+      <stop offset="1" stop-color="#6a5cff"/>
+    </linearGradient>
+  </defs>
+  <path d="M22 12 H58 C58 27 45 34 45 40 C45 46 58 53 58 68 H22 C22 53 35 46 35 40 C35 34 22 27 22 12 Z" fill="url(#hg)"/>
+  <path d="M8 40 H28 L34 30 L41 51 L47 36 L50 40 H72" fill="none" stroke="#36e0a4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="86" y="51" font-family="'Segoe UI',system-ui,-apple-system,sans-serif" font-weight="700" font-size="30" fill="#f5f5fa">Y<tspan fill="#36e0a4">0</tspan>ur L<tspan fill="#36e0a4">1</tspan>fe <tspan fill="#36e0a4">1</tspan>n Numb<tspan fill="#36e0a4">3</tspan>rs</text>
+</svg>
