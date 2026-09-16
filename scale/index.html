@@ -14,6 +14,14 @@
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+
+<!-- Installable app. iOS ignores the manifest, so it gets its own tags. -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="To Scale">
 </head>
 <body>
 
@@ -52,6 +60,14 @@
       </button>
     </div>
     <p class="best" id="bestLine" hidden></p>
+
+    <button class="install" id="installBtn" type="button" hidden>
+      <span class="install-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 3v11M7.5 10l4.5 4.5 4.5-4.5M4 20h16"/></svg>
+      </span>
+      <span id="installT">Install the app</span>
+    </button>
+    <p class="install-hint" id="installHint" hidden></p>
   </section>
 
   <!-- ============================ STAGE ============================ -->

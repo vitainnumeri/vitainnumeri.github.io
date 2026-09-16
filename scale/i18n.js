@@ -41,7 +41,10 @@
         'Sharp — you know your sizes',
         'Uncanny. Are you a surveyor?'
       ],
-      dailyLabel: 'Daily'
+      dailyLabel: 'Daily',
+      install: 'Install the app',
+      installIos: 'On iPhone and iPad: tap Share, then <b>Add to Home Screen</b>.',
+      installed: 'Installed. Look for the icon on your home screen.'
     },
 
     it: {
@@ -77,7 +80,10 @@
         'Preciso: le misure le conosci',
         'Impressionante. Di mestiere fai il geometra?'
       ],
-      dailyLabel: 'Sfida del giorno'
+      dailyLabel: 'Sfida del giorno',
+      install: 'Installa l\u2019app',
+      installIos: 'Su iPhone e iPad: tocca Condividi, poi <b>Aggiungi a Home</b>.',
+      installed: 'Installata. Trovi l\u2019icona nella schermata Home.'
     }
   };
 
