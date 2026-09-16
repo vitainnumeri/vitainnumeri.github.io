@@ -44,7 +44,8 @@ body {
   min-height: 100%;
   max-width: 760px;
   margin: 0 auto;
-  padding: 14px 14px calc(14px + env(safe-area-inset-bottom));
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 14px
+           calc(14px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -153,6 +154,43 @@ body {
 .btn-ghost:hover { border-color: #33406b; }
 
 .best { margin: 16px 0 0; color: var(--faint); font-size: 13px; text-align: center; }
+
+/* Install offer: quieter than the two play buttons, since it is optional. */
+.install {
+  margin-top: 14px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  background: transparent;
+  color: var(--dim);
+  border: 1px dashed var(--line);
+  border-radius: 13px;
+  padding: 12px 16px;
+  font: 600 14px/1 inherit;
+  cursor: pointer;
+}
+.install:hover { color: var(--ink); border-color: #3b497a; }
+.install-icon svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.install-hint {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--faint);
+}
+.install-hint b { color: var(--dim); }
 
 /* --------------------------------- stage -------------------------------- */
 

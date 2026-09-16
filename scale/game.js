@@ -568,6 +568,70 @@
     else done();
   });
 
+  /* ------------------------------------------------------------ installing */
+
+  /* Tracks which install message is on screen, so switching language
+     re-renders it in the new one. */
+  var installMsg = null;
+
+  (function setup() {
+    var btn = el('installBtn'), hint = el('installHint'), deferred = null;
+
+    function installed() {
+      return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        navigator.standalone === true;
+    }
+    function isApple() {
+      return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    }
+
+    /* The service worker is what makes the game installable and lets it run
+       with no connection. It is also what Chrome checks before offering the
+       install prompt at all. */
+    if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+
+    if (installed()) return;
+
+    /* Chrome and the other Chromium browsers hand us the prompt to fire. */
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferred = e;
+      installMsg = null;
+      hint.hidden = true;
+      btn.hidden = false;
+    });
+
+    btn.addEventListener('click', function () {
+      if (!deferred) return;
+      deferred.prompt();
+      deferred.userChoice.then(function () {
+        deferred = null;
+        btn.hidden = true;
+      });
+    });
+
+    window.addEventListener('appinstalled', function () {
+      deferred = null;
+      btn.hidden = true;
+      installMsg = 'installed';
+      hint.innerHTML = t('installed');
+      hint.hidden = false;
+    });
+
+    /* Safari never fires that event: on iPhone and iPad the only way in is
+       Share -> Add to Home Screen, so say so rather than show a dead button. */
+    if (isApple()) {
+      installMsg = 'installIos';
+      hint.innerHTML = t('installIos');
+      hint.hidden = false;
+    }
+  })();
+
   /* -------------------------------------------------------------- language */
 
   function applyLanguage() {
@@ -586,6 +650,8 @@
     el('legRefK').textContent = t('reference');
     el('lockBtn').textContent = t('lock');
     el('endKicker').textContent = t('finalScore');
+    el('installT').textContent = t('install');
+    if (installMsg) el('installHint').innerHTML = t(installMsg);
     el('shareBtn').textContent = t('share');
     el('againBtn').textContent = t('again');
     el('hint').textContent = t(G.phase === 'reveal' ? 'hintRev' : 'hint');
