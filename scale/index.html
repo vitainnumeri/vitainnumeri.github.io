@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>To Scale — guess how big things really are</title>
+<meta name="description" content="Drag a silhouette until it matches its real-world size next to something you know. Five rounds, 500 points. How good is your sense of scale?">
+<meta name="theme-color" content="#0b1020">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="To Scale — guess how big things really are">
+<meta property="og:description" content="Match the silhouette to its real-world scale. Five rounds, 500 points.">
+<meta property="og:image" content="../og-image.png">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================ HEADER ============================ -->
+  <header class="head">
+    <div class="head-top">
+      <h1 class="logo"><span>TO</span> SCALE</h1>
+      <button class="lang" id="langBtn" type="button" aria-label="Change language">IT</button>
+    </div>
+    <p class="tagline" id="tagline">Match the silhouette to its real-world scale.</p>
+    <p class="meta" id="meta" hidden>
+      <span class="meta-k" id="lblRound">ROUND</span> <b id="roundNo">1</b><span class="sep">/</span><span id="roundTot">5</span>
+      <span class="meta-gap"></span>
+      <span class="meta-k" id="lblScore">SCORE</span> <b id="scoreNo">0</b>
+    </p>
+  </header>
+
+  <!-- ============================ START ============================ -->
+  <section class="card panel" id="startPanel">
+    <h2 id="startTitle">How big is it, really?</h2>
+    <ol class="how" id="howList">
+      <li>One silhouette is drawn at its <b>true size</b>. That is your ruler.</li>
+      <li>Drag the corner handle to resize the <b>red</b> one until it looks right.</li>
+      <li>Lock it in. The closer you are, the more of the 100 points you keep.</li>
+    </ol>
+    <div class="modes">
+      <button class="btn btn-primary" id="playDaily" type="button">
+        <span id="playDailyT">Daily challenge</span>
+        <small id="playDailyS">Same 5 rounds for everyone today</small>
+      </button>
+      <button class="btn btn-ghost" id="playEndless" type="button">
+        <span id="playEndlessT">Random 5</span>
+        <small id="playEndlessS">A fresh set every time</small>
+      </button>
+    </div>
+    <p class="best" id="bestLine" hidden></p>
+  </section>
+
+  <!-- ============================ STAGE ============================ -->
+  <section class="stagewrap" id="stageWrap" hidden>
+    <div class="stage" id="stage">
+      <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+      <div class="zoom">
+        <button class="zbtn" id="zoomIn" type="button" aria-label="Zoom in">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6M16.5 16.5L21 21"/></svg>
+        </button>
+        <button class="zbtn" id="zoomOut" type="button" aria-label="Zoom out">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M16.5 16.5L21 21"/></svg>
+        </button>
+        <button class="zbtn" id="fitBtn" type="button" aria-label="Fit both">
+          <svg viewBox="0 0 24 24"><path d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"/></svg>
+        </button>
+      </div>
+
+      <div class="verdict" id="verdict" hidden>
+        <div class="verdict-score"><b id="vScore">0</b><span>/ 100</span></div>
+        <div class="verdict-rows">
+          <div><span id="vYouK">Your answer</span>: <b id="vYou">—</b></div>
+          <div><span id="vRealK">Actual</span>: <b id="vReal">—</b></div>
+        </div>
+        <div class="verdict-off" id="vOff"></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <p class="lg lg-ref"><span class="dot"></span><span id="legRefK">Reference</span>:
+        <b id="legRefName">—</b> <i id="legRefNote"></i></p>
+      <p class="lg lg-tgt"><span class="dot"></span><b id="legTgtName">—</b> <i id="legTgtNote"></i></p>
+    </div>
+
+    <p class="fact" id="fact" hidden></p>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="lockBtn" type="button">Lock it in</button>
+      <button class="btn btn-primary" id="nextBtn" type="button" hidden>Next round</button>
+    </div>
+    <p class="hint" id="hint">Drag the handle on the red silhouette. Pinch or scroll to zoom the view.</p>
+  </section>
+
+  <!-- ============================ RESULT ============================ -->
+  <section class="card panel" id="endPanel" hidden>
+    <p class="end-kicker" id="endKicker">Final score</p>
+    <p class="end-score"><b id="endScore">0</b><span>/ 500</span></p>
+    <p class="end-rank" id="endRank"></p>
+    <p class="end-squares" id="endSquares"></p>
+    <ul class="breakdown" id="breakdown"></ul>
+    <div class="actions">
+      <button class="btn btn-primary" id="shareBtn" type="button">Share result</button>
+      <button class="btn btn-ghost" id="againBtn" type="button">Play again</button>
+    </div>
+    <p class="hint" id="shareNote" hidden></p>
+  </section>
+
+  <footer class="foot">
+    <a href="../">Vita in Numeri</a><span>·</span><a href="../privacy.html" id="privacyLink">Privacy</a>
+  </footer>
+</div>
+
+<script src="silhouettes.js"></script>
+<script src="subjects.js"></script>
+<script src="i18n.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
