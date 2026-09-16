@@ -70,10 +70,11 @@
 
   /* ------------------------------------------------- silhouette measuring */
 
+  /* One path per subject, evenodd so the inner contours stay open. */
   function silhouette(art, cls, transform) {
-    var g = make('g', { class: cls, transform: transform });
-    SILHOUETTES[art].forEach(function (d) { g.appendChild(make('path', { d: d })); });
-    return g;
+    return make('path', {
+      d: SILHOUETTES[art], class: cls, transform: transform, 'fill-rule': 'evenodd'
+    });
   }
 
   var BBOX = {};
@@ -81,11 +82,11 @@
     var probe = make('svg', { width: 0, height: 0, style: 'position:absolute;visibility:hidden' });
     document.body.appendChild(probe);
     for (var k in SILHOUETTES) {
-      var g = silhouette(k, 'sil');
-      probe.appendChild(g);
-      var b = g.getBBox();
+      var p = silhouette(k, 'sil');
+      probe.appendChild(p);
+      var b = p.getBBox();
       BBOX[k] = { x: b.x, y: b.y, w: b.width, h: b.height };
-      probe.removeChild(g);
+      probe.removeChild(p);
     }
     probe.remove();
   })();

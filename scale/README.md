@@ -48,39 +48,48 @@ python3 -m http.server 8000
 
 ## The artwork
 
-Silhouettes are not image files. Each one is a short list of overlapping
-primitives — ellipses, rounded rectangles, polygons, and tapered limbs swept
-along a curve — compiled into SVG paths at load time:
+Silhouettes are not image files and not hand-drawn primitives. Each subject is
+**one SVG path string**, drawn with `fill-rule="evenodd"` so the inner contours
+read as holes — the gap between a horse's legs, the Eiffel Tower's arches, a
+car's wheels, the sound hole in the guitar.
 
-```js
-rhino: [
-  ['e', 104, 48, 50, 26],                    // barrel
-  ['e', 56, 58, 30, 19, -10],                // lowered head
-  ['p', 'M33 53C28 49 24 43 22 36C30 40…'],  // horn
-  ['r', 64, 62, 19, 38, 7],                  // foreleg
-  ['l', [152, 40], [162, 54], [158, 72], 5, 2]   // tail
-]
-```
+The outlines were produced by a pipeline rather than by hand:
 
-`['m', axisX, [...]]` mirrors a group of shapes, which is how anything
-symmetrical (arms, legs, wings, spider legs) is drawn once instead of twice.
+1. Generate a reference image of the subject as a flat black silhouette on
+   white, in the pose the measurement assumes (side profile facing left for
+   animals, front view for anything measured by height, top view for a
+   wingspan).
+2. Threshold it, then trace the contours — outer shapes and their holes.
+3. Simplify with Douglas–Peucker, then smooth the result into cubic beziers
+   through a Catmull–Rom pass that keeps a **hard corner** wherever the
+   direction changes by more than 62°, so hooves, horns, beaks and antlers
+   stay sharp instead of melting into curves.
+4. Normalise so the longer side spans 1000 units.
 
-Each primitive stays a **separate path** under a shared group rather than
-being concatenated into one `d` string. Merging them would leave the nonzero
-fill rule to decide what happens where two shapes overlap, and any pair with
-opposite winding directions punches a hole — which showed up as dark bands
-across the giraffe's neck and the elephant's trunk.
+Coordinates are otherwise arbitrary: the game measures each path with
+`getBBox()` and rescales it, so only the proportions matter.
 
-Coordinates are arbitrary. The game measures each finished group with
-`getBBox()` and rescales it, so only proportions matter.
+### Proportions are load-bearing
+
+The bounding box is not just cosmetic. The game draws a subject at its declared
+`m` along its `dim`, and the *other* axis follows from the path's aspect ratio —
+so a silhouette whose proportions are wrong quietly misleads the player on the
+axis they are not being scored on.
+
+This also means the stated measurement has to describe **what the drawing
+actually spans**. A horse drawn head-up is not 1.6 m tall at the withers, it is
+2.1 m to the top of the head; a mouse drawn with its tail stretched out is not
+9 cm, it is 17 cm nose to tail tip. Where the pose and the label disagree,
+change one of them.
 
 ## Adding a subject
 
-1. Draw it in `silhouettes.js` facing left, standing on the bottom of its own
-   bounding box.
+1. Trace a silhouette facing left, standing on the bottom of its own bounding
+   box, and add its path to `silhouettes.js`.
 2. Add an entry to `SUBJECTS` in `subjects.js` with `dim` (`'length'` measures
    the silhouette horizontally, `'height'` vertically), `m` (that measurement
-   in metres), both languages, and a one-line fact for the reveal.
+   in metres, describing what the drawing spans), both languages, and a
+   one-line fact for the reveal.
 3. Add it to `PAIRS` alongside something familiar. The reference comes first —
    it is the one people reason *from*.
 
