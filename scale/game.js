@@ -77,24 +77,37 @@
     });
   }
 
-  var BBOX = {};
-  (function measure() {
-    var probe = make('svg', { width: 0, height: 0, style: 'position:absolute;visibility:hidden' });
-    document.body.appendChild(probe);
-    for (var k in SILHOUETTES) {
-      var p = silhouette(k, 'sil');
-      probe.appendChild(p);
-      var b = p.getBBox();
-      BBOX[k] = { x: b.x, y: b.y, w: b.width, h: b.height };
-      probe.removeChild(p);
+  var BBOX = {}, probeSvg = null;
+
+  function bbox(art) {
+    var cached = BBOX[art];
+    if (cached && cached.w > 0 && cached.h > 0) return cached;
+
+    if (!probeSvg) {
+      probeSvg = make('svg', {
+        width: 10, height: 10,
+        style: 'position:absolute;left:-9999px;top:0;opacity:0;pointer-events:none'
+      });
+      document.body.appendChild(probeSvg);
     }
-    probe.remove();
-  })();
+    var p = silhouette(art, 'sil');
+    probeSvg.appendChild(p);
+    var b;
+    try { b = p.getBBox(); } catch (e) { b = null; }
+    probeSvg.removeChild(p);
+
+    /* If the browser cannot measure yet, fall back to a square so the game
+       still runs; the next call re-measures and replaces it. */
+    if (!b || !b.width || !b.height) return { x: 0, y: 0, w: 1000, h: 1000, stale: true };
+
+    BBOX[art] = { x: b.x, y: b.y, w: b.width, h: b.height };
+    return BBOX[art];
+  }
 
   /* World-space footprint of a subject drawn at `metres` along its own
      measured dimension. */
   function footprint(subject, metres) {
-    var b = BBOX[subject.art];
+    var b = bbox(subject.art);
     var aspect = b.w / b.h;
     return subject.dim === 'length'
       ? { w: metres, h: metres / aspect }
@@ -131,7 +144,7 @@
          solution through where the handle happens to start. */
       var factor = Math.exp(Math.log(0.4) + rng() * (Math.log(2.5) - Math.log(0.4)));
       var startW = footprint(ref, ref.m).w * factor;
-      var tb = BBOX[tgt.art];
+      var tb = bbox(tgt.art);
       var start = tgt.dim === 'length' ? startW : startW / (tb.w / tb.h);
       return { ref: ref, tgt: tgt, start: start };
     });
@@ -229,7 +242,7 @@
 
   /* Map a silhouette's own bbox onto a world rectangle standing on the ground. */
   function placement(art, worldX, fp) {
-    var b = BBOX[art], k = G.view.k;
+    var b = bbox(art), k = G.view.k;
     var wpx = fp.w * k, hpx = fp.h * k;
     var s = wpx / b.w;
     var x = anchorX() + worldX * k;
@@ -346,7 +359,7 @@
     } else {
       drag = { mode: 'pan', x: p.x, y: p.y, panX: G.view.panX, panY: G.view.panY };
     }
-    stage.setPointerCapture(e.pointerId);
+    try { stage.setPointerCapture(e.pointerId); } catch (err) { /* drag still works */ }
   });
 
   stage.addEventListener('pointermove', function (e) {
@@ -574,6 +587,14 @@
      re-renders it in the new one. */
   var installMsg = null;
 
+  function renderIosSteps() {
+    el('iosTitle').textContent = t('installIosTitle');
+    el('iosSteps').innerHTML = t('installIos').map(function (line) {
+      return '<li>' + line + '</li>';
+    }).join('');
+    el('iosNote').textContent = t('installIosNote');
+  }
+
   (function setup() {
     var btn = el('installBtn'), hint = el('installHint'), deferred = null;
 
@@ -603,6 +624,7 @@
       deferred = e;
       installMsg = null;
       hint.hidden = true;
+      el('iosInstall').hidden = true;
       btn.hidden = false;
     });
 
@@ -618,6 +640,7 @@
     window.addEventListener('appinstalled', function () {
       deferred = null;
       btn.hidden = true;
+      el('iosInstall').hidden = true;
       installMsg = 'installed';
       hint.innerHTML = t('installed');
       hint.hidden = false;
@@ -626,9 +649,9 @@
     /* Safari never fires that event: on iPhone and iPad the only way in is
        Share -> Add to Home Screen, so say so rather than show a dead button. */
     if (isApple()) {
-      installMsg = 'installIos';
-      hint.innerHTML = t('installIos');
-      hint.hidden = false;
+      installMsg = 'ios';
+      renderIosSteps();
+      el('iosInstall').hidden = false;
     }
   })();
 
@@ -651,7 +674,8 @@
     el('lockBtn').textContent = t('lock');
     el('endKicker').textContent = t('finalScore');
     el('installT').textContent = t('install');
-    if (installMsg) el('installHint').innerHTML = t(installMsg);
+    if (installMsg === 'ios') renderIosSteps();
+    else if (installMsg) el('installHint').innerHTML = t(installMsg);
     el('shareBtn').textContent = t('share');
     el('againBtn').textContent = t('again');
     el('hint').textContent = t(G.phase === 'reveal' ? 'hintRev' : 'hint');
@@ -689,6 +713,16 @@
   el('langBtn').addEventListener('click', function () {
     I18N.set(I18N.other());
     applyLanguage();
+  });
+
+  window.addEventListener('error', function (e) {
+    var box = el('crash');
+    if (!box || !box.hidden) return;
+    box.textContent = (I18N.lang === 'it'
+      ? 'Qualcosa non ha funzionato su questo browser. Provane un altro o riprova. Dettaglio: '
+      : 'Something went wrong in this browser. Try another one or reload. Detail: ') +
+      (e.message || 'unknown');
+    box.hidden = false;
   });
 
   applyLanguage();

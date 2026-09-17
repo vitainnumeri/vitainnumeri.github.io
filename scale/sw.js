@@ -8,7 +8,7 @@
    Bump CACHE when any asset changes — the old cache is dropped on activate.
    ========================================================================= */
 
-var CACHE = 'to-scale-v1';
+var CACHE = 'to-scale-v2';
 
 var ASSETS = [
   './',
