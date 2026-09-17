@@ -43,7 +43,13 @@
       ],
       dailyLabel: 'Daily',
       install: 'Install the app',
-      installIos: 'On iPhone and iPad: tap Share, then <b>Add to Home Screen</b>.',
+      installIosTitle: 'Put it on your Home Screen',
+      installIos: [
+        'Tap the <b>Share</b> button at the bottom of Safari (the square with an arrow).',
+        'Scroll down and tap <b>Add to Home Screen</b>.',
+        'Tap <b>Add</b>. The icon appears with your other apps.'
+      ],
+      installIosNote: 'Safari only — it will not offer this from Chrome or in-app browsers.',
       installed: 'Installed. Look for the icon on your home screen.'
     },
 
@@ -82,7 +88,13 @@
       ],
       dailyLabel: 'Sfida del giorno',
       install: 'Installa l\u2019app',
-      installIos: 'Su iPhone e iPad: tocca Condividi, poi <b>Aggiungi a Home</b>.',
+      installIosTitle: 'Mettila nella schermata Home',
+      installIos: [
+        'Tocca <b>Condividi</b> in fondo a Safari (il quadrato con la freccia).',
+        'Scorri in basso e tocca <b>Aggiungi a Home</b>.',
+        'Tocca <b>Aggiungi</b>. L\u2019icona compare con le altre app.'
+      ],
+      installIosNote: 'Solo da Safari: da Chrome o dai browser dentro le app non compare.',
       installed: 'Installata. Trovi l\u2019icona nella schermata Home.'
     }
   };
